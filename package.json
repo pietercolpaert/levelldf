@@ -1,0 +1,25 @@
+{
+  "name": "levelldf",
+  "version": "0.0.1",
+  "description": "An LDF triple store with leveldb",
+  "author": "Pieter Colpaert <pieter.colpaert@okfn.org>",
+  "keywords": [
+    "ldf",
+    "triplestore",
+    "leveldb"
+  ],
+  "license": "MIT",
+  "main": "./lib/levelldf.js",
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "commander": "~2.0.0",
+    "n3": "~0.1.4",
+    "level": "~0.17.0-1",
+    "levelgraph": "~0.6.10",
+    "through2": "~0.2.3",
+    "crypto": "0.0.3"
+  }
+}

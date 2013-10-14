@@ -1,0 +1,107 @@
+#!/usr/bin/env node
+/**
+ * A command line script for downtime management of the leveldb.
+ * This means that this process can only be ran if nothing is using the leveldb.
+ *
+ * Install globally, run ldf init in an empty directory to initiate a new data repository
+ * This directory can also be initiated with git for version control
+ *
+ * @author: Pieter Colpaert <pieter.colpaert@ugent.be>
+ */
+ 
+var levelldf = require("./lib/levelldf"),
+    program = require('commander'),
+    fs = require("fs");
+
+program.version('0.0.1');
+
+program
+  .command("init")
+  .description("Creates a new levelldf database in the current folder")
+  .action(init);
+
+program
+  .command("import [filename]")
+  .description('Import data from stdin in ntriples or turtle, or from the ntriple or turtle file given')
+  .action(importTriples);
+
+program
+  .command("bgp")
+  .description('provide a basic graph pattern for which a count and triples will be returned')
+  .option("-s, --subject <subject>", "the subject of the basic graph pattern")
+  .option("-p, --predicate <predicate>", "the predicate of the basic graph pattern")
+  .option("-o, --object <object>", "the object of the basic graph pattern")
+  .action(
+    function (options) {
+      var bgp = {};
+      if(options.subject)
+        bgp.subject = options.subject;
+      if(options.predicate)
+        bgp.predicate = options.predicate;
+      if(options.object)
+        bgp.object = options.object;
+      query(bgp);
+    });
+program
+  .command("count")
+  .description('provide a basic graph pattern for which a count will be returned')
+  .option("-s, --subject <subject>", "the subject of the basic graph pattern")
+  .option("-p, --predicate <predicate>", "the predicate of the basic graph pattern")
+  .option("-o, --object <object>", "the object of the basic graph pattern")
+  .action(
+    function (options) {
+      var bgp = {};
+      if(options.subject)
+        bgp.subject = options.subject;
+      if(options.predicate)
+        bgp.predicate = options.predicate;
+      if(options.object)
+        bgp.object = options.object;
+      count(bgp);
+    });
+
+//store the leveldb in a folder called data
+var db = new levelldf("data");
+
+program.parse(process.argv);
+
+function init () {
+  //do nothing really. We just had to initiate the db (which is already done) and everything will be done for us.
+  //this function is in here to initiate an empty db though. This way, you can add an empty data repository to systems like git or r&wbase
+  console.log("New levelldf initiated");
+}
+
+function importTriples (filename) {
+  var readstream = process.stdin;
+  //create readstream if filename is set
+  if (filename) {
+    readstream = fs.createReadStream(filename, { encoding: 'utf8' });
+  }
+  var count = 0;
+  readstream.pipe(db.putStream()).on("data",function (triple) {
+    count++;
+    if (count%10000 === 0) {
+      var str = count + " triples loaded";
+      console.error( str );
+    }
+  }).on("end",function () {
+    console.error(count + " triples loaded");
+  });
+}
+
+function query (bgp) {
+  //todo: add prefixes to the serialisation
+  db.getStream(bgp).on("data", function (triple) {
+    var object = triple.object;
+    if(object.substr(0,4) === "http"){
+      object = "<" + object + ">";
+    }
+    console.log("<" + triple.subject + "> <" + triple.predicate + "> " + object + " .");
+  });
+}
+
+function count (bgp) {
+  db.count(bgp, function (count) {
+    console.log(count);
+  });
+}
