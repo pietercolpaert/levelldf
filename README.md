@@ -25,7 +25,7 @@ ldf.getStream({predicate:"rdfs:type"}).on("data", function ( triple ) {
 
 #### count ####
 
-#### putStream ####
+#### putN3Stream ####
 
 Pipe an n3 filestream in here
 

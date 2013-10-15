@@ -78,7 +78,7 @@ function importTriples (filename) {
     readstream = fs.createReadStream(filename, { encoding: 'utf8' });
   }
   var count = 0;
-  readstream.pipe(db.putStream()).on("data",function (triple) {
+  readstream.pipe(db.putN3Stream()).on("data",function (triple) {
     count++;
     if (count%10000 === 0) {
       var str = count + " triples loaded";
