@@ -86,6 +86,7 @@ function importTriples (filename) {
     }
   }).on("end",function () {
     console.error(count + " triples loaded");
+    db.recount();
   });
 }
 
