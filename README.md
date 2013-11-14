@@ -25,6 +25,15 @@ ldf.getStream({predicate:"rdfs:type"}).on("data", function ( triple ) {
 
 #### count ####
 
+##### Performance
+
+There's a script to test the performance of counts by comparing it to the wc bash command.
+
+```bash
+time -p ./test/performance.sh count
+time -p ./test/performance.sh wc
+```
+
 #### putN3Stream ####
 
 Pipe an n3 filestream in here

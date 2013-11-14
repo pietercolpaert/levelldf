@@ -26,21 +26,21 @@ program
   .action(importTriples);
 
 program
-  .command("bgp")
+  .command("triplePattern")
   .description('provide a basic graph pattern for which a count and triples will be returned')
   .option("-s, --subject <subject>", "the subject of the basic graph pattern")
   .option("-p, --predicate <predicate>", "the predicate of the basic graph pattern")
   .option("-o, --object <object>", "the object of the basic graph pattern")
   .action(
     function (options) {
-      var bgp = {};
+      var triplePattern = {};
       if(options.subject)
-        bgp.subject = options.subject;
+        triplePattern.subject = options.subject;
       if(options.predicate)
-        bgp.predicate = options.predicate;
+        triplePattern.predicate = options.predicate;
       if(options.object)
-        bgp.object = options.object;
-      query(bgp);
+        triplePattern.object = options.object;
+      query(triplePattern);
     });
 program
   .command("count")
@@ -50,14 +50,14 @@ program
   .option("-o, --object <object>", "the object of the basic graph pattern")
   .action(
     function (options) {
-      var bgp = {};
+      var triplePattern = {};
       if(options.subject)
-        bgp.subject = options.subject;
+        triplePattern.subject = options.subject;
       if(options.predicate)
-        bgp.predicate = options.predicate;
+        triplePattern.predicate = options.predicate;
       if(options.object)
-        bgp.object = options.object;
-      count(bgp);
+        triplePattern.object = options.object;
+      count(triplePattern);
     });
 
 //store the leveldb in a folder called data
@@ -86,13 +86,13 @@ function importTriples (filename) {
     }
   }).on("end",function () {
     console.error(count + " triples loaded");
-    db.recount();
+    db.bump();
   });
 }
 
-function query (bgp) {
+function query (triplePattern) {
   //todo: add prefixes to the serialisation
-  db.getStream(bgp).on("data", function (triple) {
+  db.getStream(triplePattern).on("data", function (triple) {
     var object = triple.object;
     if(object.substr(0,4) === "http"){
       object = "<" + object + ">";
@@ -101,8 +101,8 @@ function query (bgp) {
   });
 }
 
-function count (bgp) {
-  db.count(bgp, function (count) {
+function count (triplePattern) {
+  db.count(triplePattern, function (count) {
     console.log(count);
   });
 }
