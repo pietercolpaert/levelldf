@@ -20,6 +20,7 @@
     "level": "~0.17.0-1",
     "levelgraph": "~0.6.10",
     "crypto": "0.0.3",
-    "leveldown": "git://github.com/rvagg/node-leveldown.git#0.9.3-wip"
+    "leveldown": "git://github.com/rvagg/node-leveldown.git#0.9.3-wip",
+    "redis": "~0.9.0"
   }
 }

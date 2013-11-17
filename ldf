@@ -26,7 +26,7 @@ program
   .action(importTriples);
 
 program
-  .command("triplePattern")
+  .command("query")
   .description('provide a basic graph pattern for which a count and triples will be returned')
   .option("-s, --subject <subject>", "the subject of the basic graph pattern")
   .option("-p, --predicate <predicate>", "the predicate of the basic graph pattern")
@@ -86,7 +86,6 @@ function importTriples (filename) {
     }
   }).on("end",function () {
     console.error(count + " triples loaded");
-    db.bump();
   });
 }
 
