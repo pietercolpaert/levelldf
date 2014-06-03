@@ -18,7 +18,7 @@ LevelLDF uses LevelDB (a key value store) to store all triples using LevelGraph.
 
 ```javascript
 var ldf = require("levelldf");
-ldf.getStream({predicate:"rdfs:type"}).on("data", function ( triple ) {
+ldf.getStream({predicate:"rdf:type"}).on("data", function ( triple ) {
   console.log(triple);
 });
 ```
@@ -46,8 +46,8 @@ When you got ldf in your $PATH, check out
 ldf --help
 ldf init
 ldf import turtle.ttl
-ldf bgp -p 'rdfs:type'
-ldf count -p 'rdfs:type'
+ldf bgp -p 'rdf:type'
+ldf count -p 'rdf:type'
 ```
 
 ## Paper ##
