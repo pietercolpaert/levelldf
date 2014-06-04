@@ -50,10 +50,3 @@ ldf bgp -p 'rdf:type'
 ldf count -p 'rdf:type'
 ```
 
-## Paper ##
-
-This is used for a paper at WWW14 in Seoul.
-
-## Future work ##
-
-Implement distributed versioning of the data

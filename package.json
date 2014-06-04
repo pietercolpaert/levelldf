@@ -1,5 +1,5 @@
 {
-  "name": "basicldfforarchives",
+  "name": "levelldf",
   "version": "0.0.1",
   "description": "An LDF triple store with levelgraph and redis",
   "author": "Pieter Colpaert <pieter.colpaert@ugent.be>",
@@ -11,8 +11,8 @@
   "license": "GPL",
   "repository" :
   { "type" : "git",
-    "url" : "http://github.com/pietercolpaert/basicldfforarchives"
-  }
+    "url" : "http://github.com/pietercolpaert/levelldf"
+  },
   "main": "./lib/levelldf.js",
   "engines": {
     "node": ">=0.10.1"
